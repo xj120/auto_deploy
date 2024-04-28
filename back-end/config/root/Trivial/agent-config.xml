@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<config>
+	<!-- Target server to steam log events to -->
+	<logserver>
+		<host>localhost</host>
+		<port>9123</port>
+        <type>tcp</type>
+	</logserver>
+
+	<!-- Application node identification -->
+	<nodeid>
+		<application>Trivial</application>
+		<tier>Trivial</tier>
+		<node>Node</node>
+	</nodeid>
+
+	<!-- Code transformation rules configuration -->
+	<transformation-rules>
+		<!-- Add logging to custom pointcuts -->
+		<method-pointcut>
+			<enabled>true</enabled>
+			<include>org.apache.log4j.config.*</include>
+			<include>org.apache.log4j.helpers.*</include>
+			<include>org.apache.log4j.jdbc.*</include>
+			<include>org.apache.log4j.jmx.*</include>
+			<include>org.apache.log4j.net.*</include>
+			<include>org.apache.log4j.nt.*</include>
+			<include>org.apache.log4j.or.*</include>
+			<include>org.apache.log4j.or.jms.*</include>
+			<include>org.apache.log4j.or.sax.*</include>
+			<include>org.apache.log4j.pattern.*</include>
+			<include>org.apache.log4j.rewrite.*</include>
+			<include>org.apache.log4j.spi.*</include>
+			<include>org.apache.log4j.varia.*</include>
+			<include>org.apache.log4j.xml.*</include>
+			<trace-constructor>true</trace-constructor>
+			<trace-params>true</trace-params>
+		</method-pointcut>
+
+		<thread-call-pointcut>
+			<enabled>true</enabled>
+			<include>org.apache.log4j.config.*</include>
+			<include>org.apache.log4j.helpers.*</include>
+			<include>org.apache.log4j.jdbc.*</include>
+			<include>org.apache.log4j.jmx.*</include>
+			<include>org.apache.log4j.net.*</include>
+			<include>org.apache.log4j.nt.*</include>
+			<include>org.apache.log4j.or.*</include>
+			<include>org.apache.log4j.or.jms.*</include>
+			<include>org.apache.log4j.or.sax.*</include>
+			<include>org.apache.log4j.pattern.*</include>
+			<include>org.apache.log4j.rewrite.*</include>
+			<include>org.apache.log4j.spi.*</include>
+			<include>org.apache.log4j.varia.*</include>
+			<include>org.apache.log4j.xml.*</include>
+			<call-pattern>java.lang.Thread.start()</call-pattern>
+			<trace-catch>false</trace-catch>
+		</thread-call-pointcut> 
+
+		<!-- Add logging to Socket connect and close -->
+		<socket>
+			<enabled>true</enabled>
+		</socket>
+
+		<!-- Add logging to SocketChannel connect -->
+		<socket-channel>
+			<enabled>false</enabled> <!-- Not properly investigated -->
+		</socket-channel>
+
+		<!-- Add logging to javax Servlet joinpoints -->
+		<servlet>
+			<enabled>true</enabled>
+			<includes>
+				<include>javax.servlet.*</include>
+			</includes>
+		</servlet>
+	</transformation-rules>
+</config>

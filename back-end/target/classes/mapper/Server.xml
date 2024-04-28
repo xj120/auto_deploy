@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.processmining.logdeploy.autodeploy.dao.ServerDao">
+
+    <resultMap id="serverMap" type="com.processmining.logdeploy.autodeploy.entity.Server">
+        <id column="id" property="id"/>
+        <result column="is_default" property="is_default"/>
+        <result column="project_id" property="project_id"/>
+    </resultMap>
+
+    <insert id="addServer" useGeneratedKeys="true" keyProperty="server.id">
+        insert into server(ip, port, username, password, status, is_default, project_id, created)
+        values(#{server.ip}, #{server.port}, #{server.username}, #{server.password}, #{server.status}, #{server.is_default}, #{server.project_id}, #{server.created})
+    </insert>
+
+    <select id="getUserName" resultType="String">
+        select user.username from user, project where user.id=project.user_id and project.id=#{server.project_id}
+    </select>
+
+    <insert id="addCollectTool">
+        insert into collect_tool(name, directory, server_id)
+        values(#{collectTool.name}, #{collectTool.directory}, #{collectTool.server_id})
+    </insert>
+
+    <select id="getServer" resultType="com.processmining.logdeploy.autodeploy.entity.Server">
+        select id, ip, port, username, password, status, is_default, project_id, created from server where project_id=#{project_id}
+    </select>
+
+    <select id="getCollectToolByServerId" resultType="com.processmining.logdeploy.autodeploy.entity.CollectTool">
+        select id, name, directory, server_id from collect_tool where server_id=#{server_id}
+    </select>
+
+    <update id="updateStatus">
+        update server set status=#{server.status} where id=#{server.id}
+    </update>
+
+    <delete id="deleteServer">
+        delete from server where id=#{server.id}
+    </delete>
+
+    <delete id="deleteServerById">
+        delete from server where id=#{id}
+    </delete>
+
+</mapper>

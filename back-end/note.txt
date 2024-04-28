@@ -1,0 +1,68 @@
+tool:
+    local:
+        tool/user.username/uuid/
+        tool/default/log_agent-0.0.3-SNAPSHOT.jar
+        tool/default/log_server-0.0.4-SNAPSHOT.jar
+    remote:
+        /home/server.username/autodeploy/tool/
+
+application:
+    local:
+        application/user.name/uuid/
+    remote:
+        deploy.directory/deploy.application_name
+        deploy.directory/deploy.application_name + deploy.compression_format
+        recommend: /home/server.username/autodeploy/application/
+
+config:
+    local:
+        config/user.username/collect.name/
+        config/template/agent-config.xml
+        config/template/config.xml
+    remote:
+        /home/server.username/autodeploy/config/collect.name
+
+shell:
+    local:
+        ../shell/start_server.sh
+        ../shell/stop_server.sh
+    remote:
+        /home/server.username/autodeploy/shell/
+    command:
+        ./start_server.sh server.username
+        ./stop_server.sh
+
+script:
+    local:
+        script/user.username/project.name/deploy.application_name/
+    remote:
+        /home/server.username/autodeploy/script/deploy.application_name/
+
+
+java -jar /home/ubuntu/autodeploy/tool/log_server-0.0.4-SNAPSHOT.jar
+
+cd /home/ubuntu/autodeploy/application/log4j-trunk/target/classes
+
+java -javaagent:/home/ubuntu/autodeploy/tool/log_agent-0.0.3-SNAPSHOT.jar
+               =/home/ubuntu/autodeploy/config/Trivial/agent-config.xml Trivial
+
+
+centos: sudo yum install screen
+
+
+distributed:
+    application:
+        local:
+            distributed/application/user.name/applicationName/
+        remote:
+            /home/server.username/autodeploy/distributed/application/
+
+    applicationConfig:
+        local:
+            distributed/application/user.name/applicationName/config/
+        remote:
+            /home/server.username/autodeploy/distributed/application/applicationName/configPath
+            eg: /home/server.username/autodeploy/distributed/application/hadoop-3.1.3/etc/hadoop/hdfs-site.xml
+
+    script:
+        remote: /home/server.username/autodeploy/distributed/script/

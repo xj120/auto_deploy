@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.processmining.logdeploy.autodeploy.dao.CollectDao">
+
+    <select id="getServerByProjectId" resultType="com.processmining.logdeploy.autodeploy.entity.Server">
+        select id, ip, port, username, password, status, is_default, project_id, created from server where project_id=#{project_id}
+    </select>
+
+    <select id="getClusterByProjectId" resultType="com.processmining.logdeploy.autodeploy.entity.Cluster">
+        select id, name, description, created, project_id from cluster where project_id=#{project_id}
+    </select>
+
+    <select id="getServerById" resultType="com.processmining.logdeploy.autodeploy.entity.Server">
+        select id, ip, port, username, password, status, is_default, project_id, created from server where id=#{id}
+    </select>
+
+    <select id="getUserName" resultType="String">
+        select user.username from user, project where user.id=project.user_id and project.id=#{project_id}
+    </select>
+
+    <insert id="addServerDeploy">
+        insert into deploy(application_name, server_id, cluster_id, type, directory, created, compression_format, is_execute, script_path, project_id)
+        values(#{deploy.application_name}, #{deploy.server_id}, #{deploy.cluster_id}, #{deploy.type}, #{deploy.directory},
+               #{deploy.created}, #{deploy.compression_format}, #{deploy.is_execute}, #{deploy.script_path}, #{deploy.project_id})
+    </insert>
+
+    <select id="getDeploy" resultType="com.processmining.logdeploy.autodeploy.entity.Deploy">
+        select id, application_name, server_id, cluster_id, type, directory, created, compression_format, is_execute, script_path, project_id
+        from deploy where project_id=#{project_id}
+    </select>
+
+    <select id="getClusterById" resultType="com.processmining.logdeploy.autodeploy.entity.Cluster">
+        select id, name, description, created, project_id from cluster where id=#{id}
+    </select>
+
+    <delete id="deleteDeployById">
+        delete from deploy where id=#{id}
+    </delete>
+
+    <select id="getDeployById" resultType="com.processmining.logdeploy.autodeploy.entity.Deploy">
+        select id, application_name, server_id, cluster_id, type, directory, created, compression_format, is_execute, script_path, project_id
+        from deploy where id=#{id}
+    </select>
+
+    <insert id="addCollect" useGeneratedKeys="true" keyProperty="collect.id">
+        insert into collect(name, deploy_id, created, is_default, log_name, use_case_name, project_id, is_build)
+        values(#{collect.name}, #{collect.deploy_id}, #{collect.created}, #{collect.is_default}, #{collect.log_name}, #{collect.use_case_name}, #{collect.project_id}, #{collect.is_build})
+    </insert>
+
+    <insert id="addCollectPackage">
+        insert into collect_package(name, is_collect, project_id, collect_id)
+        values(#{collectPackage.name}, #{collectPackage.is_collect}, #{collectPackage.project_id}, #{collectPackage.collect_id})
+    </insert>
+
+    <select id="getCollectPackage" resultType="java.lang.String">
+        select name from collect_package where project_id=#{project_id} and collect_id=#{collect_id} and is_collect=1
+    </select>
+
+    <select id="getCollect" resultType="com.processmining.logdeploy.autodeploy.entity.Collect">
+        select id, name, deploy_id, created, is_default, log_name, use_case_name, project_id, is_build from collect where project_id=#{project_id}
+    </select>
+
+    <select id="getCollectById" resultType="com.processmining.logdeploy.autodeploy.entity.Collect">
+        select id, name, deploy_id, created, is_default, log_name, use_case_name, project_id, is_build from collect where id=#{id}
+    </select>
+
+    <update id="updateIsBuild">
+        update collect set is_build=#{is_build} where id=#{id}
+    </update>
+
+    <select id="getProjectName" resultType="java.lang.String">
+        select name from project where id=#{id}
+    </select>
+
+    <select id="getServer" resultType="com.processmining.logdeploy.autodeploy.entity.Server">
+        select id, ip, port, username, password, status, is_default, project_id, created from server where project_id=#{project_id}
+    </select>
+
+    <insert id="addCluster" useGeneratedKeys="true" keyProperty="cluster.id">
+        insert into cluster(name, description, created, project_id)
+        values(#{cluster.name}, #{cluster.description}, #{cluster.created}, #{cluster.project_id})
+    </insert>
+
+    <insert id="addClusterServer">
+        insert into cluster_server(cluster_id, server_id) values(#{cluster_id}, #{server_id})
+    </insert>
+
+    <select id="getCluster" resultType="com.processmining.logdeploy.autodeploy.entity.Cluster">
+        select id, name, description, created, project_id from cluster where id=#{cluster_id}
+    </select>
+
+    <select id="getServerList" resultType="com.processmining.logdeploy.autodeploy.entity.Server">
+        select id, ip, port, username, password, status, is_default, project_id, created
+        from server
+        where id in (select server_id from cluster_server where cluster_id=#{cluster_id})
+    </select>
+
+    <insert id="addClusterDeploy">
+        insert into deploy(application_name, server_id, cluster_id, type, directory, created, compression_format, project_id)
+        values(#{deploy.application_name}, #{deploy.server_id}, #{deploy.cluster_id}, #{deploy.type},
+               #{deploy.directory}, #{deploy.created}, #{deploy.compression_format}, #{deploy.project_id})
+    </insert>
+
+</mapper>

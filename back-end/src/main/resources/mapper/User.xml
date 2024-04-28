@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.processmining.logdeploy.autodeploy.dao.UserDao">
+
+    <select id="getUserById" resultType="com.processmining.logdeploy.autodeploy.entity.User">
+        select id, username, password, avatar, email, created, last_login, status
+        from user
+        where id=#{id}
+    </select>
+
+    <select id="getUserByName" resultType="com.processmining.logdeploy.autodeploy.entity.User">
+        select id, username, password, avatar, email, created, last_login, status
+        from user
+        where username=#{username}
+    </select>
+
+    <insert id="register">
+        insert into user(username, password, avatar, email, created, last_login, status)
+        values(#{user.username}, #{user.password}, #{user.avatar}, #{user.email}, #{user.created}, #{user.last_login}, #{user.status})
+    </insert>
+
+</mapper>
+

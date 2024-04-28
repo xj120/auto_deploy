@@ -1,0 +1,35 @@
+spring:
+  datasource:
+    driverClassName: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/autodeploy?useUnicode=true&characterEncoding=UTF-8&useSSL=false&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true
+    username: root
+    password: 961116
+
+  servlet:
+    multipart:
+      max-file-size: 600MB  # 单个数据大小
+      max-request-size: 800MB # 总数据大小
+
+mybatis:
+  mapper-locations: classpath:mapper/*.xml
+  type-aliases-package: com.processmining.logdeploy.autodeploy.entity
+  configuration:
+    map-underscore-to-camel-case: false # 关闭驼峰自动转换
+
+mybatis-plus:
+  configuration:
+    map-underscore-to-camel-case: false # 关闭驼峰自动转换
+
+server:
+  port: 9000
+
+shiro-redis:
+  enabled: true
+  redis-manager:
+    host: 127.0.0.1:6379
+
+autodeploy:
+  jwt:
+    secret: f4e2e52034348f86b67cde581c0f9eb5
+    expire: 604800
+    header: Authorization

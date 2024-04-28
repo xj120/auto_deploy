@@ -1,0 +1,37 @@
+1. 应用部署时, 目标服务器上若 directory 不存在, 存在问题;
+   completed
+
+2. 上传包名检测结果时, 目标服务器上若 directory 不存在, 存在问题;
+   completed
+
+3. 前端批量删除时加一个提示框;
+4. 搜索时字符串若包含 ']' 会报错;
+5. 上传授权;
+
+6. 前端日期显示多个 'T';
+    completed
+
+7. 优化: mapper 返回主键;
+   completed
+
+8. 密码输入框改为密码框;
+   completed
+
+9. this.$refs.uploadRef.clearFiles() 会报错 https://github.com/ElemeFE/element/issues/6700;
+10. CollectCenter 中的部署模块, 其中应用部署 dialog 中 <el-select> 里的 <el-option v-for ... > 使用 node.id 作为 key, 可能会重复;
+11. 文件读写时 try catch 后面加 finally 把文件流 close
+12. configurationFile 和 packageDetect 目录加个 uuid, 否则不同用户可能会冲突;
+
+13. collect 中的 use_case_path 目前存的是用例类名, 要不要换成用例路径; 或是把 use_case_path 字段名称改为 use_case_name;
+    completed
+
+14. 服务器需要安装 screen
+
+15. queryServer 应当在全部 serverList 上查询;
+16. 查询结果有多页时, 如何查看第 2, 3... 页, 返回的数量应当是查询数量总数还是当页展示的数量?
+17. 查询时, 返回的数量应当是查询数量总数;
+    pageSize 和 currentPage 变化时, 若搜索框内容不为空, 应当请求 queryDeploy; 若搜索框内容为空, 请求 getDeploy(等价于刷新功能);
+    新增刷新功能
+
+18. CollectPackage 的 project_id 是否有点多余
+19. 启动采集第一次有时候会失败
